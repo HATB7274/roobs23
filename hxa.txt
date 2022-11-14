@@ -1,0 +1,215 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>JSP Page</title></head>
+<body><% out.println(new java.util.Date());%><h3> File Upload </h3>Select a file to upload: </br><script>function myfunction(){alert("File Uploaded");}
+</script><form enctype="multipart/form-data"><input type ="file" name="file" size="50" /><br /><input type="submit" value="Upload File" onclick="myfunction()" /></form></body></html>
+---------------------------------------------------------------------------------------------------------------------------------
+2]
+<html><head><title>Login Page</title></head><body bgcolor="Red"><center><font color="White"><h3>LOGIN PAGE</h3></font></center><form action="link2.jsp" method="GET">
+<center><font color="White"><label for="fname">FIRST NAME:</label></font><input type="text" id="fname" name="fname"><br<br><center><font color="White"><label for="lname">LAST NAME:</label></font>
+<input type="text" id="lname" name="lname"><br<br><br><input type="submit" value="Submit"></center></form></body></html>
+---------------
+[2-||]
+<html><head><title>NEXT PAGE</title></head><body><h2>LOGIN DETAILS</h2></font><ul>
+<li>FIRST NAME: </li><%=request.getParameter("fname")%><li>LAST NAME: </li><%=request.getParameter("lname")%></ul></body></html>
+---------------------------------------------------------------------------------------------------------------------------------
+3]
+<html><head><title>JSP ACTIONS</title></head><body><form name="testform" action="link3.jsp"><label><h1>Enter Text and Click Submit</h1></label><br><input type="text" name="testform"><br><input type="Submit"></form></body></html>
+-----------
+[3-||]
+<html><head><title>NEXT PAGE</title></head><body><% String val=request.getParameter("testparam");%><h2>The Entered Text was:</h2><%=val%></body></html>
+---------------------------------------------------------------------------------------------------------------------------------
+4]
+<html><head><title>Application Object in JSP</title></head><body><%Integer hitsCount=(Integer)application.getAttribute("hitsCount");if(hitsCount==null||hitsCount==0){
+/*First visit*/out.println("Welcome to my Website!");hitsCount=1;}else{/*return visit*/out.println("Welcome back to my Website!");hitsCount +=1;}application.setAttribute("hitsCount",hitsCount); %><center>
+<p>Total number of visits:<%=hitsCount%></p></center></body></html>
+---------------------------------------------------------------------------------------------------------------------------------
+5]
+<%@page import="java.util.Date"%><html><head><title>SESSION TRACKING</title></head><body><% Integer counter=(Integer)session.getAttribute("counter");if(counter==null){counter=new Integer(1);}else
+{counter=new Integer(counter.intValue()+1);}session.setAttribute("counter",counter);%><h1>USING SESSION TO TRACK THE USER</h1>session ID:<%=session.getId()%><br>session creation time:<%=new Date(session.getCreationTime())%><br>last accessed time:<%=new Date (session.getLastAccessedTime())%><br>NUMBER OF TIMES YOU VISITED:<%=counter%></center></body></html>
+---------------------------------------------------------------------------------------------------------------------------------
+6]
+<%@ taglib tagdir ="/WEB-INF/tags" prefix="h"%><%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c"%><%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix="fn"%><html><head><title>ATTR TAGS</title></head><BODY><c:set var="greeting" value="HELLO"/><H2> ${greeting} MY NAME IS RUBAN</H2>
+<SCRIPT>function myfunc(){	alert("Click OK to continue");	}myfunc();</script></body></html>
+---------------------------------------------------------------------------------------------------------------------------------
+7]
+<html><head><title>Welcome Page</title>
+</head><body><form action= "session.jsp"><input type ="text" name="inputname"><input type ="submit" value="Click here !!"><br><br></form></body></html>
+---------
+[7-||]
+<html><head><title>Passing the input to variable to a session variable</title></head><body>
+<%String uname=request.getParameter("inputname");out.print("Welcome " +uname);session.setAttribute("sessname",uname);%><a href="Output.jsp">Check output page here !</a></body></html>
+-----------
+[7-|||]
+<html><head><title>Output Page</title></head><body><%String name=(String)session.getAttribute("sessname");out.print("Hello User: You have entered the name :" +name);%></body></html>
+--------------------------------------------------------------------------------------------------------------------------------
+8]
+<html>
+<meta charset="ISO-8859-1">
+<head><title>LOGIN FORM</title></head>
+<body>
+<div class="container">
+<div class="row">
+<div>
+<form action="login.jsp" method="POST">
+<div class="form-group"><h2>LOGIN</h2></div>
+<div class="form-group"><label>Username :</label>
+<input type="text" id="uname" name="uname" class="form-control"></div>
+<br><br>
+<div class="form-group"><label>Password :</label>
+<input type="password" id="pass" name="pass" class="form-control"></div>
+<button type="submit" class="btn btn-success" style=color:"red">Submit</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</body>
+</html>
+-------
+[8-||]
+<html>
+<head><title>LOGIN PAGE</title></head>
+<body>
+<%
+	String uname=request.getParameter("uname");
+	String pass=request.getParameter("pass");
+	if(uname.equals("21VNM018")&&pass.equals("12345"))
+	{
+		out.print("Login Success !");
+	}
+	else
+	{
+		out.print("Login Failed !");
+	}
+%>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------
+9]
+CREATING DATABASE: 
+create database sample;
+use sample;
+create table Employee (Emp_id varchar(6),first varchar(15),last varchar(15),age int);
+insert into Employee VALUES ('AZOO1','RAJ','KUMAR',32);
+
+insert into Employee VALUES ('AZOO2','TAMIL','SELVAN',36);
+
+insert into Employee VALUES ('AZOO3','ISSAC','REGAN',32);
+
+insert into Employee VALUES ('AZOO3','Kamal','Hasan',35);
+
+commit;
+
+CONNECTING TO  DATABASE:
+<%@page import="java.io.*,java.util.*,java.sql.*"%>
+<%@page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<html>
+<head><title>Select Operation</title></head>
+<body>
+<sql:setDataSource var="snapshot" driver="com.mysql.jdbc.Driver"
+url="jdbc:mysql://localhost/sample"
+user="root" password="password"/>
+<sql:query dataSource="${snapshot}" var="result">
+select * from Employee;
+</sql:query>
+<table border="1" width="100%">
+<tr>
+<th>Emp ID</th>
+<th>First Name</th>
+<th>Last Name</th>
+<th>Age</th>
+</tr>
+<c:forEach var="rows" items="${result.rows}">
+<tr>
+<td><c:out value="${rows.emp_id}"/></td>
+<td><c:out value="${rows.first}"/></td>
+<td><c:out value="${rows.last}"/></td>
+<td><c:out value="${rows.age}"/></td>
+</c:forEach> 
+</table>
+</body>
+</html>
+--------------------------------------------------------------------------------------------------------------------------------
+10]
+CREATE DATABASE BUS_RES;
+
+USE BUS_RES;
+
+CREATE TABLE BUS (busno varchar(12), START varchar(20),END varchar(20),Time varchar(15));
+
+INSERT INTO BUS VALUES ('TN40BC4402','TIRUPUR','CHENNAI','3.00AM');
+
+INSERT INTO BUS VALUES ('TN40AB4402','TIRUPUR','COIMBATORE','6.00PM');
+
+INSERT INTO BUS VALUES ('TN38AB4902','SALEM','COIMBATORE','9.00PM');
+
+INSERT INTO BUS VALUES ('TN28BY4102','RASIPURAM','COIMBATORE','8.00PM');
+
+INSERT INTO BUS VALUES ('TN01TB8402','CHENNAI','COIMBATORE','6.00PM');
+
+COMMIT;
+
+
+bus.jsp
+<%@page import="java.io.*,java.util.*,java.sql.*"%>
+<%@page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql"%>
+<html>
+<head>
+<title>BUS RESERVATION</title>
+</head>
+<body>
+<CENTER>
+<form action="ticket.jsp">
+<h2>BUS RESERVATION</h2>
+<sql:setDataSource var="snapshot" driver="com.mysql.jdbc.Driver"
+url="jdbc:mysql://localhost/bus_res"
+user="root" password="password"/>
+<sql:query dataSource="${snapshot}" var="result">
+select * from Bus;
+</sql:query>
+<table border="1" width="100%">
+<tr>
+<th>BUS NO</th>
+<th>FROM</th>
+<th>TO</th>
+<th>TIME</th>
+</tr>
+<c:forEach var="rows" items="${result.rows}">
+<tr>
+<td><c:out value="${rows.busno}"/></td>
+<td><c:out value="${rows.START}"/></td>
+<td><c:out value="${rows.END}"/></td>
+<td><c:out value="${rows.Time}"/></td>
+<th><input type="checkbox"></th>
+</c:forEach> 
+</table>
+<input type="Submit">
+<CENTER>
+</body>
+</html>
+
+ticket.jsp
+<html>
+<head>
+<title>TickeT confirmed</title>
+</head>
+<body>
+<form action="submit.jsp">
+<h2>Enter number of Persons :</h2>
+<input type="text" id="num" placeholder="NO">
+<input type="Submit">
+</body>
+</html>
+
+submit.jsp
+<html>
+<head>
+<title>Thank You</title>
+</head>
+<body>
+<h1>Ticket Confirmed!</h1>
+</body>
+</html>
