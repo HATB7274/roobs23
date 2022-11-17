@@ -1,0 +1,157 @@
+create table customer(cust_no varchar(5)PRIMARY KEY,cust_name varchar(15)NOT NULL,age number(2),phone number(10));
+ALTER TABLE customer ADD d_birth DATE;
+create table cust_phone(cust_name varchar(15),phone number(10));
+insert into cust_phone(cust_name,phone)SELECT cust_name,phone FROM customer;
+DELETE FROM customer WHERE cust_no='01';
+ALTER TABLE RENAME customer TO cust;
+DROP TABLE cust;
+-
+2]
+
+SELECT CURRENT_DATE FROM dual;
+
+SELECT CURRENT_TIMESTAMP FROM dual;
+
+SELECT DBTIMEZONE FROM dual;
+
+SELECT LOCALTIMESTAMP FROM dual;
+
+SELECT
+  MONTHS_BETWEEN( DATE '2017-07-01', DATE '2017-01-01' ) MONTH_DIFF
+FROM
+  DUAL;
+
+ SELECT SESSIONTIMEZONE FROM dual;
+
+SELECT
+  TO_CHAR( 
+        ROUND( TO_DATE( '20-Jul-2017 16:30:15',  'DD-Mon-YYYY HH24:MI:SS' ) ), 
+  'DD-Mon-YYYY HH24:MI:SS' )  rounded_result
+FROM
+  dual;
+
+ SELECT SYSTIMESTAMP FROM dual;
+
+SELECT
+  EXTRACT( YEAR FROM TO_DATE( '31-Dec-1999 15:30:20 ',  'DD-Mon-YYYY HH24:MI:SS' ) ) YEAR
+FROM
+  DUAL;
+
+SELECT LAST_DAY(DATE '2022-08-01')FROM DUAL;
+
+
+
+
+
+
+
+--------
+	S2]
+
+create table employee(empid varchar(10)PRIMARY KEY,empname varchar2(20)NOT NULL,Phone number(10)NOT NULL,phone number(10)NOT NULL,salary number(6)NOT NULL,dept varchar2(15)NOT NULL,DOJ date);
+create table empexperience(empid varchar (10) primary key, empname varchar2(20) not null, phone number (10) not null);
+insert into  empexperience(empid,empname,phone)SELECT empid,empname,phone FROM employee;
+UPDATE employee SET bonus = Salary + (Salary * 10/100) WHERE emp_id='4FG33';
+SELECT * FROM employee WHERE dept='marketing';
+---
+2.
+SET SERVEROUTPUT ON;
+DECLARE 
+cursor emp is select empname,salary from employee order by salary desc;
+BEGIN
+dbms_output.put_line('EMP_NAME'||''||'SALARY');
+dbms_output.put_line('**********************');
+for i in emp
+LOOP
+if emp%rowcount<=5 then
+dbms_output.put_line(i.empanme||''||''||''||i.salary);
+END IF;
+END LOOP;
+END;
+----------------------
+	s3]
+1.
+CREATE TABLE Student (rollno varchar2(8) PRIMARY KEY CHECK (rollno like '21vnm%'), Name varchar2(20) Not Null, add1 varchar2(30),add2 varchar2(30),Dob Date Not Null);
+INSERT INTO Student values ('21VNM020','RAJ','RK Pudhur','Tirupur','10-OCT-2003');
+CREATE TABLE STUDENT_MARKS (rollno varchar2(8) references Student(rollno),School_category varchar2(13),Percentage Number(2));
+INSERT INTO STUDENT_MARKS VALUES ('21VNM020','STATE BOARD',89);
+SELECT Name from Student WHERE rollno in (SELECT * FROM Student_Marks WHERE percentage>=75);
+select count(*) from Student where add2 = "Tirupur";
+DELETE from Student where rollno>"21vnm044";
+Select rollno,name from Student order by rollno;
+SELECT student.rollno,name,"Studying in", School_category,"has scored", Percentage from Student,student_marks where student.rollno=student_marks.rollno;
+-------
+2.
+SQL> TTITLE LEFT "SEM-2" CENTER "RESULTS" RIGHT "PSGCAS" SKIP 2
+SQL> SELECT MARKS.Course_Code,Course,CA,CE,CA+CE"TOTAL",Result FROM MARKS,COURSES WHERE Marks.Course
+_code=Courses.Course_code;
+
+
+
+
+--------------
+	s4]
+2.
+SERVEROUTPUT ON;
+Declare
+Msal number(7,2):=&msal;
+Annsal number(9,2);
+Bonus number(7,2);
+doj date:=&date_of_join;
+Exp number(3);
+Totsal number(9,2);
+Begin
+Exp:=months_between(sysdate,doj)/12;
+Annsal:=msal*12;
+If exp>3 then
+Bonus:=annsal*12/100;
+Else
+Bonus:=1000;
+End if;
+Totsal:=msal+bonus;
+Dbms_output.put_line('Annual salary=Rs. '||annsal);
+Dbms_output.put_line('Experience='||exp||' years');
+Dbms_output.put_line('Bonus amount=Rs. '||bonus);
+Dbms_output.put_line('Total salary drawn=Rs. '||totsal);
+End;
+------------------
+	s5]
+
+	1.
+CREATE TABLE Sal_Order (s_ord_no varchar2(10) PRIMARY KEY, sodate Date, dely_type varchar2(1) DEFAULT 'F',cno varchar2(10));
+INSERT INTO Sal_order values ('ABC001','02-JAN-2022','P','ABZ022');
+CREATE TABLE sales_order_Det (s_ord_no varchar2(10) references Sal_order(s_ord_no),pno varchar2(10), pname varchar2(20),qty_ord number(3),product_rate number(5));
+INSERT INTO sales_order_det values ('ABCO11','PS71','PELICAN',5,25);
+SELECT pname from Sales_order_det where qty_ord in (select max(qty_ord) from Sales_order_det);
+select avg(qty_ord) from Sales_order_det;
+SELECT pname from Sales_order_det where (pname like 'P%');
+select count(s_ord_no) from Sal_order where dely_type='P';
+SELECT sales_order_det.s_ord_no,cno,sodate,pno,pname,dely_type,qty_ord,product_rate from sal_order,sales_order_det where sales_order_det.s_ord_no = sal_order.s_ord_no;
+-------------
+2.
+select Product_No,Product_Description from PRODUCT_MASTERSS where Product_No NOT IN(select Product_No from SALES_ORDER);
+------------------
+s6]
+create table emp_payroll(empid number, empname varchar(25) primary key,cityVarchar2(20) not null, empbasic number(10,2), emppf number(10,2),empallownumber(10,2), empgross number(10,2), empnet number(10,3));
+select empid,empname,empbasic,emppf,empallow,empgross,empnet FROM emp_payroll WHERE CITY='mumbai','delhi';
+select empname FROM emp_payroll WHERE bpay='10000','12000';
+select COUNT(empid),CITY FROM emp_payroll GROP BY CITY;
+----
+2.
+insert into emp_payroll(empid,empname)values(&empid,&empname);
+/
+set serveroutput on;
+create or replace procedure  payroll(emp_id IN NUMBER, basic in number) as
+pf number;
+allowances number;
+gpay number;
+npay number;
+begin
+pf:=(basic*0.11);
+allowances:=(basic*0.25);
+gpay:=(basic+pf+allowances);
+npay:=(gpay-pf);
+update emp_payroll set empbasic=basic,emppf=pf,empallow=allowances,empgross=gpay,empnet=npay
+where empid=emp_id;
+end;
+-------------------------------------
