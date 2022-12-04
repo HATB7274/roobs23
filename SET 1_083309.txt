@@ -1,0 +1,237 @@
+CREATE TABLE customer(cust_no VARCHAR(5) PRIMARY KEY,cust_name VARCHAR(15) NOT NULL,age NUMBER(2),phone NUMBER(10));
+
+INSERT INTO customer(cust_no,cust_name,age,phone)VALUES('01','Dinesh',21,5678129367);
+INSERT INTO customer(cust_no,cust_name,age,phone)VALUES('02','Raj',21,5678129367);
+INSERT INTO customer(cust_no,cust_name,age,phone)VALUES('03','Magesh',21,5678129367);
+INSERT INTO customer(cust_no,cust_name,age,phone)VALUES('04','Giri',21,5678129367);
+INSERT INTO customer(cust_no,cust_name,age,phone)VALUES('05','Kamal',21,5678129367);
+
+SELECT * FROM customer;
+
+ALTER TABLE customer ADD d_birth DATE;
+
+UPDATE customer SET d_birth='22-jan-2003' WHERE cust_no='01';
+UPDATE customer SET d_birth='24-jul-2004' WHERE cust_no='02';
+UPDATE customer SET d_birth='21-aug-2003' WHERE cust_no='03';
+UPDATE customer SET d_birth='19-mar-2003' WHERE cust_no='04';
+UPDATE customer SET d_birth='18-jun-2004' WHERE cust_no='05';
+
+CREATE TABLE cust_phone(cust_name VARCHAR(15) NOT NULL,phone NUMBER(10));
+
+
+INSERT INTO cust_phone(cust_name,phone) SELECT cust_name,phone FROM customer;
+
+SELECT * FROM cust_phone;
+
+TRUNCATE TABLE cust_phone;
+
+SELECT * FROM cust_phone;
+
+ALTER TABLE customer RENAME TO cust;
+
+DROP TABLE cust_phone;
+
+---------------------------------------------------------------------------------------------------------------------------------------		
+CREATE TABLE employee(empid varchar(10) PRIMARY KEY,emp_name varchar2(20) NOT NULL,Phone_no number(10) NOT NULL,salary NUMBER(6) NOT NULL,dept varchar2(15) NOT NULL,doj DATE NOT NULL);
+
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG32','Abi',6786591282,33000,'HR_department',24-jul-2022);
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG33','Ram',6723391282,45000,'marketing',26-jul-2022);
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG34','Akash',6452391282,63000,'Purchasing',24-jun-2022);
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG35','jai',6782391282,3000,'marketing',24-jul-2022);
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG36','ram',6782391282,60000,'marketing',22-jul-2022);
+
+SELECT * FROM employee;
+
+CREATE TABLE empexperience(empid varchar(10) PRIMARY KEY,emp_name varchar2(20) NOT NULL,Phone_no number(10) NOT NULL);
+
+INSERT INTO empexperience(empid,emp_name,phone_no) SELECT empid,emp_name,phone_no FROM employee;
+
+SELECT * FROM employee;
+
+ALTER TABLE customer ADD bonus number(5);
+
+UPDATE employee SET bonus = Salary + (Salary * 10/100) WHERE emp_id='4FG33';
+
+SELECT * FROM employee;
+
+SELECT * FROM employee WHERE dept='marketing';
+
+SELECT * FROM employee ORDER BY salary DESC LIMIT 2;
+-----------------------------------------------------------------------------------------------------------------------------------------------
+PG 3
+
+
+CREATE TABLE Student (rollno varchar2(8) PRIMARY KEY CHECK (rollno like '21vnm%'), Name varchar2(20) Not Null, add1 varchar2(30),add2 varchar2(30),Dob Date Not Null);
+INSERT INTO Student values ('21VNM020','RAJ','RK Pudhur','Tirupur','10-OCT-2003');
+INSERT INTO Student values ('21VNM035','Rajini','RS Puram','Coimbatore','10-Nov-2003');
+INSERT INTO Student values ('21VNM045','Kamal','SN Palayam','Tirupur','11-OCT-2004');
+INSERT INTO Student values ('21VNM047','Abdul','Nallore','Tirupur','14-jan-2003');
+INSERT INTO Student values ('21VNM050','Calvin','T Nagar','Chennai','09-DEC-2003');
+INSERT INTO Student values ('21VNM060','Mathi','Padiyur','Tirupur','09-OCT-2003');
+
+CREATE TABLE STUDENT_MARKS (rollno varchar2(8) references Student(rollno),School_category varchar2(13),Percentage Number(2));
+INSERT INTO STUDENT_MARKS VALUES ('21VNM020','STATE BOARD',89);
+INSERT INTO STUDENT_MARKS VALUES ('21VNM035','CBSE',80);
+INSERT INTO STUDENT_MARKS VALUES ('21VNM045','MATRIC',77);
+INSERT INTO STUDENT_MARKS VALUES ('21VNM047','CBSE',95);
+INSERT INTO STUDENT_MARKS VALUES ('21VNM050','STATE BOARD',58);
+INSERT INTO STUDENT_MARKS VALUES ('21VNM060','STATE BOARD',76);
+
+SELECT Name from Student WHERE rollno in (SELECT * FROM Student_Marks WHERE percentage>=75);
+
+select count(*) from Student where add2 = "Tirupur";
+
+DELETE from Student where rollno>"21vnm044";
+
+Select rollno,name from Student order by rollno;
+
+SELECT student.rollno,name,"Studying in", School_category,"has scored", Percentage from Student,student_marks where student.rollno=student_marks.rollno;
+
+----------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE employee(empid varchar(10) PRIMARY KEY,emp_name varchar2(20) NOT NULL,Phone_no number(10) NOT NULL,salary NUMBER(6) NOT NULL,dept varchar2(15) NOT NULL,doj DATE NOT NULL);
+
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG32','Abi',6786591282,33000,'HR_department',24-jul-2022);
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG33','Ram',6723391282,45000,'marketing',26-jul-2022);
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG34','Akash',6452391282,63000,'Purchasing',24-jun-2022);
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG35','jai',6782391282,3000,'marketing',24-jul-2022);
+INSERT INTO employee(empid,emp_name,Phone_no,salary,dept,doj)VALUES('4FG36','ram',6782391282,60000,'marketing',22-jul-2022);
+
+SELECT * FROM employee;
+
+CREATE TABLE empexperience(empid varchar(10) PRIMARY KEY,emp_name varchar2(20) NOT NULL,Phone_no number(10) NOT NULL);
+
+INSERT INTO empexperience(empid,emp_name,phone_no) SELECT empid,emp_name,phone_no FROM employee;
+
+SELECT * FROM employee;
+
+ALTER TABLE customer ADD bonus number(5);
+
+UPDATE employee SET bonus = Salary + (Salary * 10/100) WHERE emp_id='4FG33';
+
+SELECT * FROM employee;
+
+SELECT * FROM employee WHERE dept='marketing';
+
+SELECT * FROM employee ORDER BY salary DESC LIMIT 2;
+
+DECLARE
+Salary number(9,2);
+bonus number(7,2);
+BEGIN
+Salary:=msal*12;
+if salary>=2000 then
+bonus:=Salary + (Salary * 10/100);
+else
+bonus:=1000;
+end if;
+totsal:=Salary+bonus;
+Dbms_output.put_line('Bonus amount=Rs.'||bonus);
+end;
+/
+
+
+# alternative #
+
+
+Declare
+Msal number(7,2):=&msal;
+Annsal number(9,2);
+Bonus number(7,2);
+doj date:=&date_of_join;
+Exp number(3);
+Totsal number(9,2);
+Begin
+Exp:=months_between(sysdate,doj)/12;
+Annsal:=msal*12;
+If exp>3 then
+Bonus:=annsal*12/100;
+Else
+Bonus:=1000;
+End if;
+Totsal:=msal+bonus;
+Dbms_output.put_line('Annual salary=Rs. '||annsal);
+Dbms_output.put_line('Experience='||exp||' years');
+Dbms_output.put_line('Bonus amount=Rs. '||bonus);
+Dbms_output.put_line('Total salary drawn=Rs. '||totsal);
+End;
+----------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE Sal_Order (s_ord_no varchar2(10) PRIMARY KEY, sodate Date, dely_type varchar2(1) DEFAULT 'F',cno varchar2(10));
+INSERT INTO Sal_order values ('ABC001','02-JAN-2022','P','ABZ022')
+INSERT INTO Sal_order values ('ABC011','12-FEB-2022','F','ABZ092');
+INSERT INTO Sal_order values ('ABC041','02-JAN-2022','P','ABZ025');
+INSERT INTO Sal_order values ('ABC098','11-DEC-2022','P','ABZ087');
+INSERT INTO Sal_order values ('ABC090','09-NOV-2022','P','ABZ040');
+INSERT INTO Sal_order values ('ABC021','02-NOV-2022','F','ABZ026')
+
+
+CREATE TABLE sales_order_Det (s_ord_no varchar2(10) references Sal_order(s_ord_no),pno varchar2(10), pname varchar2(20),qty_ord number(3),product_rate number(5));
+INSERT INTO sales_order_det values ('ABCO11','PS71','PELICAN',5,25);
+INSERT INTO sales_order_det values ('ABCO41','PS221','PEN',40,7);
+INSERT INTO sales_order_det values ('ABCO98','PS101','BOOK',5,500);
+INSERT INTO sales_order_det values ('ABCO90','PS119','SCALE',15,5);
+INSERT INTO sales_order_det values ('ABCO21','PS151','NOTE',20,50);
+INSERT INTO sales_order_det values ('ABCOO1','PS651','PENCIL',125,5);
+
+SELECT pname from Sales_order_det where qty_ord in (select max(qty_ord) from Sales_order_det);
+
+select avg(qty_ord) from Sales_order_det;
+
+SELECT pname from Sales_order_det where (pname like 'P%');
+
+select count(s_ord_no) from Sal_order where dely_type='P';
+
+
+SELECT sales_order_det.s_ord_no,cno,sodate,pno,pname,dely_type,qty_ord,product_rate from sal_order,sales_order_det where sales_order_det.s_ord_no = sal_order.s_ord_no;
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE emp_payroll(empid number, empname varchar(25) primary key,city Varchar2(20) not null,empbasic number(10,2),emppf number(10,2),empallow number(10,2),empgross number(10,2),empnet number(10,3));
+
+INSERT INTO employee(empid,empname,city,empbasic,emppf,empallow,empgross,empnet)VALUES('4FG32','Abi','delhi',3000,300,300,36000,2000);
+INSERT INTO employee(empid,empname,city,empbasic,emppf,empallow,empgross,empnet)VALUES('4FG34','Arul','mumbai',3000,300,300,37000,2000);
+INSERT INTO employee(empid,empname,city,empbasic,emppf,empallow,empgross,empnet)VALUES('4FG38','thilak','delhi',11000,300,300,33000,2000);
+INSERT INTO employee(empid,empname,city,empbasic,emppf,empallow,empgross,empnet)VALUES('4FG35','kiran','mumbai',3000,300,300,35000,2000);
+INSERT INTO employee(empid,empname,city,empbasic,emppf,empallow,empgross,empnet)VALUES('4FG33','jai','chennai',3000,300,300,37000,2000);
+INSERT INTO employee(empid,empname,city,empbasic,emppf,empallow,empgross,empnet)VALUES('4FG31','Arun','chennai',3000,300,300,34000,2000);
+
+SELECT * FROM employee WHERE city='mumbai' OR city='delhi';
+
+SELECT * FROM employees WHERE empbasic BETWEEN 10000 and 12000;
+
+SELECT city, COUNT(*) FROM employee WHERE empbasic IS NOT NULL GROUP BY city;
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+reference
+
+create table emp_payroll(empid number(10) primary key,empname varchar2(25),empbasic number(10,2),emppf number(10,2),empallow number(10,2),empgross number(10,2),empnet number(10,3));
+insert into emp_payroll(empid,empname)values(&empid,&empname);
+insert into emp_payroll(empid,empname)values(&empid,&empname);
+insert into emp_payroll(empid,empname)values(&empid,&empname);
+insert into emp_payroll(empid,empname)values(&empid,&empname);
+commit;
+
+set serveroutput on;
+create or replace procedure  payroll(emp_id IN NUMBER, basic in number) as
+pf number;
+allowances number;
+gpay number;
+npay number;
+begin
+pf:=(basic*0.11);
+allowances:=(basic*0.25);
+gpay:=(basic+pf+allowances);
+npay:=(gpay-pf);
+update emp_payroll set empbasic=basic,emppf=pf,empallow=allowances,empgross=gpay,empnet=npay
+where empid=emp_id;
+end;
+/
+
+exec payroll(01,15000);
+exec payroll(02,20000);
+exec payroll(3,14000);
+exec payroll(04,10000);
+
+select * from emp_payroll;
+
